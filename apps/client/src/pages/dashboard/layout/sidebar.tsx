@@ -6,7 +6,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem
 } from "@/components/ui/sidebar.tsx";
-import {SidebarUsers} from "@/pages/dashboard/layout/sidebar-users.tsx";
+import {SidebarSection} from "@/pages/dashboard/layout/sidebar-section.tsx";
 import {IconCirclePlus, IconInnerShadowTop, IconList} from "@tabler/icons-react";
 
 export const AppSidebar = (props: any) => {
@@ -58,9 +58,9 @@ export const AppSidebar = (props: any) => {
                 </SidebarMenu>
             </SidebarHeader>
             <SidebarContent>
-                <SidebarUsers title="User Management" items={users}/>
-                <SidebarUsers title="Product Management" items={products}/>
-                <SidebarUsers title="Role Management" items={role}/>
+                <SidebarSection title="User Management" items={users}/>
+                <SidebarSection title="Product Management" items={products}/>
+                <SidebarSection title="Role Management" items={role}/>
             </SidebarContent>
         </Sidebar>
     );

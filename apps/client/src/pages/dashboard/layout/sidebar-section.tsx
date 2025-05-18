@@ -7,8 +7,9 @@ import {
     SidebarMenuItem
 } from "@/components/ui/sidebar.tsx";
 import type {Icon} from "@tabler/icons-react";
+import {Link} from "react-router";
 
-export const SidebarUsers = ({title, items}: {
+export const SidebarSection = ({title, items}: {
     title: string;
     items: {
         title: string
@@ -24,12 +25,14 @@ export const SidebarUsers = ({title, items}: {
             <SidebarGroupContent className="flex flex-col gap-2">
                 <SidebarMenu>
                     {items.map((item) => (
-                        <SidebarMenuItem key={item.title}>
-                            <SidebarMenuButton tooltip={item.title}>
-                                {item.icon && <item.icon/>}
-                                <span>{item.title}</span>
-                            </SidebarMenuButton>
-                        </SidebarMenuItem>
+                        <Link to={item.url}>
+                            <SidebarMenuItem key={item.title}>
+                                <SidebarMenuButton tooltip={item.title}>
+                                    {item.icon && <item.icon/>}
+                                    <span>{item.title}</span>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                        </Link>
                     ))}
                 </SidebarMenu>
             </SidebarGroupContent>

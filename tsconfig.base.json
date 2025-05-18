@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@validation/*": ["packages/validation/src/*"]
+    }
+  }
+}

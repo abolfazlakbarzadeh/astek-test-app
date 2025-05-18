@@ -1,0 +1,26 @@
+{
+  "name": "test-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "dev": "turbo run dev --parallel"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abolfazlakbarzadeh/astek-test-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abolfazlakbarzadeh/astek-test-app/issues"
+  },
+  "homepage": "https://github.com/abolfazlakbarzadeh/astek-test-app#readme",
+  "description": "",
+  "dependencies": {
+    "turbo": "^2.5.3"
+  },
+  "workspaces": ["apps/*", "packages/*"],
+  "packageManager": "npm@10.9.2"
+}

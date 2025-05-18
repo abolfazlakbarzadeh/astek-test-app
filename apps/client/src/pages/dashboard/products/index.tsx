@@ -1,17 +1,15 @@
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.tsx";
 import {Label} from "@radix-ui/react-label";
-import {Checkbox} from "@/components/ui/checkbox.tsx";
 import moment from "jalali-moment";
-import {Button} from "@/components/ui/button.tsx";
-import {IconDots, IconEdit, IconTrash, IconUserCheck} from "@tabler/icons-react";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.tsx";
+import {IconDots, IconEdit, IconTrash, IconUserCheck} from "@tabler/icons-react";
 import {Command, CommandItem, CommandList} from "@/components/ui/command.tsx";
 
-export const UsersPage = () => {
+export const ProductsPage = () => {
     return (
         <div className="flex flex-col gap-2 p-4">
             <Label>
-                Users
+                Roles
             </Label>
             <Table>
                 <TableHeader>
@@ -20,16 +18,16 @@ export const UsersPage = () => {
                             ID
                         </TableHead>
                         <TableHead>
-                            Username
-                        </TableHead>
-                        <TableHead>
                             Name
                         </TableHead>
                         <TableHead>
-                            Phone
+                            Description
                         </TableHead>
                         <TableHead>
-                            Super Admin
+                            Price
+                        </TableHead>
+                        <TableHead>
+                            Creator
                         </TableHead>
                         <TableHead>
                             Updated At
@@ -48,16 +46,16 @@ export const UsersPage = () => {
                             1
                         </TableCell>
                         <TableCell>
-                            test username
+                            test product name
                         </TableCell>
                         <TableCell>
-                            test name
+                            test product description
                         </TableCell>
                         <TableCell>
-                            0900000000
+                            {(15000).toLocaleString()}
                         </TableCell>
                         <TableCell>
-                            <Checkbox checked className="w-4 h-4 mx-auto"/>
+                            test user
                         </TableCell>
                         <TableCell>
                             {moment().add(1, 'day').format('jYYYY-jMM-jDD HH:mm:ss')}
@@ -68,15 +66,11 @@ export const UsersPage = () => {
                         <TableCell>
                             <Popover>
                                 <PopoverTrigger>
-                                        <IconDots/>
+                                    <IconDots/>
                                 </PopoverTrigger>
                                 <PopoverContent>
                                     <Command>
                                         <CommandList>
-                                            <CommandItem>
-                                                <IconUserCheck />
-                                                Assign Role
-                                            </CommandItem>
                                             <CommandItem>
                                                 <IconEdit />
                                                 Edit

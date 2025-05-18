@@ -32,11 +32,11 @@ export const AppSidebar = (props: any) => {
     const role = [{
         title: 'List',
         icon: IconList,
-        url: '/dashboard/role'
+        url: '/dashboard/roles'
     }, {
         title: 'Create',
         icon: IconCirclePlus,
-        url: '/dashboard/role/create'
+        url: '/dashboard/roles/create'
     }]
 
 

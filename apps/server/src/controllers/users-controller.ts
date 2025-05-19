@@ -1,11 +1,11 @@
 import {Request, Response} from "express";
 import {User} from "../models/User";
-import {permissions, userCreateSchema, userEditSchema} from "validation";
-import {z} from "zod";
+import {permissions, userAssignRoleSchema, userEditSchema, userSchema} from "validation";
 import bcrypt from "bcryptjs";
 import {Role} from "../models/Role";
-import {userForbidden} from "../misc/http-responses";
+import {returnValidationErrors, userForbidden} from "../misc/http-responses";
 import {AccessRequest} from "../middlewares/access-middleware";
+import {Error} from "sequelize";
 
 export class UsersController {
     static async index(req: Request, res: Response) {
@@ -20,10 +20,6 @@ export class UsersController {
     }
 
     static async get(req: AccessRequest, res: Response) {
-        const authUser = req.user
-        if (authUser.id != req.params.id && !authUser.is_super_admin) {
-            return userForbidden(res)
-        }
         const user = await User.findOne({
             where: {
                 id: req.params.id
@@ -41,27 +37,26 @@ export class UsersController {
     }
 
     static async create(req: Request, res: Response) {
-        const validation = userCreateSchema.superRefine((data, ctx) => {
-            if (!data.is_super_admin && !data.role) {
-                ctx.addIssue({
-                    code: z.ZodIssueCode.custom,
-                    message: "Role is required when not a super admin",
-                    path: ["role"],
-                });
-            }
-        }).safeParse(req.body)
+        const validation = userSchema.safeParse(req.body)
         if (!validation.success) {
-            return res.status(400).json({
-                error: "data validation failed",
-                messages: validation.error.errors
-            })
+            return returnValidationErrors(res, validation.error.errors)
         }
         const password = bcrypt.hashSync(validation.data.password!, 10)
-        const user = await User.create({
-            ...validation.data,
-            password
-        })
-        return res.json(user);
+        try {
+            const user = await User.create({
+                ...validation.data,
+                password
+            })
+            return res.json(user);
+        } catch (e) {
+            const error = e as Error
+            if (error.name == "SequelizeUniqueConstraintError") {
+                return res.status(400).json({
+                    success: false,
+                    message: 'User already exists'
+                })
+            }
+        }
     }
 
     static async update(req: AccessRequest, res: Response) {
@@ -76,27 +71,21 @@ export class UsersController {
         }
 
         const validation = userEditSchema.safeParse(req.body)
-        console.log({
-            validation
-        })
         if (!validation.success) {
-            return res.status(400).json({
-                error: "data validation failed",
-                messages: validation.error.errors
-            })
+            return returnValidationErrors(res, validation.error.errors)
         }
         if (user.is_super_admin != validation.data.is_super_admin && !authUser.is_super_admin) {
             return userForbidden(res)
         }
-        if (user.role != validation.data.role && !authUser.is_super_admin) {
+        if (user.role_id != validation.data.role_id! && !authUser.is_super_admin) {
             // check if the user has assign role permission
             const role = await Role.findOne({
                 where: {
-                    name: authUser.role
+                    id: authUser.role_id
                 }
             })
             if (!role) {
-                return userForbidden(res)
+                return res.status(404).json({message: 'Role does not exist'});
             }
             const rolePermissions = JSON.parse(role.permissions) as string[]
             if (!rolePermissions.some(permission => permission == permissions.account_management.assignRole)) {
@@ -133,5 +122,36 @@ export class UsersController {
         await user.destroy()
 
         return res.json({success: true, message: 'User deleted successfully'});
+    }
+
+    static async assignRole(req: AccessRequest, res: Response) {
+
+        const validation = userAssignRoleSchema.safeParse(req.body)
+        if (!validation.success) {
+            return returnValidationErrors(res, validation.error.errors)
+        }
+
+        const user = await User.findOne({
+            where: {
+                id: req.params.id
+            }
+        })
+
+        if (!user) {
+            return res.status(404).json({message: 'User does not exist'});
+        }
+
+        const role = await Role.findOne({
+            where: {
+                id: validation.data.role_id
+            }
+        })
+        if (!role) {
+            return res.status(404).json({message: 'Role does not exist'});
+        }
+
+        await user.setRole(role)
+
+        return res.json({success: true, message: 'User role assigned successfully'});
     }
 }

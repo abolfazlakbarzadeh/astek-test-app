@@ -5,9 +5,12 @@ export const userEditSchema = z.object({
     phone: z.string(),
     password: z.string().optional(),
     is_super_admin: z.boolean(),
-    role: z.string().optional()
+    role_id: z.number(),
 })
-export const userCreateSchema = userEditSchema.extend({
+export const userSchema = userEditSchema.extend({
     username: z.string(),
     password: z.string(),
+})
+export const userAssignRoleSchema = z.object({
+    role_id: z.number(),
 })

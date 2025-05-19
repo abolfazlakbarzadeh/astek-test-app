@@ -1,11 +1,8 @@
-import {
-    Table,
-    Column,
-    Model,
-    DataType,
-} from 'sequelize-typescript';
+import {BelongsTo, Column, DataType, ForeignKey, HasOne, Model, Table,} from 'sequelize-typescript';
+import {BelongsToSetAssociationMixin, HasOneSetAssociationMixin} from "sequelize";
+import {Role} from "./Role";
 
-@Table({ tableName: 'users' })
+@Table({tableName: 'users'})
 export class User extends Model {
     @Column({
         autoIncrement: true,
@@ -20,8 +17,8 @@ export class User extends Model {
     @Column(DataType.STRING)
     name!: string;
 
-    @Column(DataType.STRING)
-    role!: string;
+    @ForeignKey(() => Role)
+    role_id!: number;
 
     @Column(DataType.STRING)
     phone!: string;
@@ -31,4 +28,9 @@ export class User extends Model {
 
     @Column(DataType.BOOLEAN)
     is_super_admin!: boolean;
+
+    @BelongsTo(() => Role, {onDelete: "CASCADE", foreignKey: 'role_id'})
+    declare role: Role
+
+    declare setRole: BelongsToSetAssociationMixin<Role, Role['id']>
 }

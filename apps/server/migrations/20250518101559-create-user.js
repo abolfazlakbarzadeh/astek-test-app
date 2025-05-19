@@ -26,8 +26,12 @@ module.exports = {
         type: Sequelize.BOOLEAN
       },
       role: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: true,
+        references: {
+          model: 'roles',
+          key: 'id'
+        }
       },
       createdAt: {
         allowNull: false,

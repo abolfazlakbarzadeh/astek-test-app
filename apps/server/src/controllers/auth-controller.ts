@@ -17,7 +17,7 @@ export class AuthController {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
 
-        const token = generateToken({ id: user.id, username: user.username, role: user.role, is_super_admin: user.is_super_admin });
+        const token = generateToken({ id: user.id, username: user.username, role_id: user.role_id, is_super_admin: user.is_super_admin });
 
         res.json({ token });
     }

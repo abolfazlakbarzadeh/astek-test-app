@@ -2,8 +2,9 @@ import {
     Table,
     Column,
     Model,
-    DataType,
+    DataType, BelongsTo, BelongsToMany, HasMany,
 } from 'sequelize-typescript';
+import {User} from "./User";
 
 @Table({ tableName: 'roles' })
 export class Role extends Model {
@@ -19,4 +20,7 @@ export class Role extends Model {
 
     @Column(DataType.JSON)
     permissions!: string;
+
+    @HasMany(() => User, { foreignKey: 'role_id' })
+    declare users: User[];
 }

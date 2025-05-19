@@ -34,7 +34,7 @@ export const accessMiddleware = (roles?: string[], permissions?: string[]): any 
 
     let permission_grants = true
     if (permissions) {
-        const rolePermissions = JSON.parse(role.permissions) as string[]
+        const rolePermissions = role.permissions
         permission_grants = permissions.some(permission => rolePermissions.includes(permission))
     }
     let role_grants = true

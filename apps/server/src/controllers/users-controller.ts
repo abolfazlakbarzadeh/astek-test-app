@@ -87,7 +87,7 @@ export class UsersController {
             if (!role) {
                 return res.status(404).json({message: 'Role does not exist'});
             }
-            const rolePermissions = JSON.parse(role.permissions) as string[]
+            const rolePermissions = role.permissions
             if (!rolePermissions.some(permission => permission == permissions.account_management.assignRole)) {
                 return userForbidden(res)
             }

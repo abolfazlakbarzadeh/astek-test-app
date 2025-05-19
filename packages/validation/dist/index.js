@@ -17,3 +17,4 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./user-schema"), exports);
 __exportStar(require("./permissions"), exports);
 __exportStar(require("./role.schema"), exports);
+__exportStar(require("./product-schema"), exports);

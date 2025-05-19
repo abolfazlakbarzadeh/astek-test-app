@@ -19,7 +19,7 @@ export class Role extends Model {
     name!: string;
 
     @Column(DataType.JSON)
-    permissions!: string;
+    permissions!: string[];
 
     @HasMany(() => User, { foreignKey: 'role_id' })
     declare users: User[];

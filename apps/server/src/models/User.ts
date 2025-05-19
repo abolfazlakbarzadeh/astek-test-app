@@ -1,6 +1,7 @@
-import {BelongsTo, Column, DataType, ForeignKey, HasOne, Model, Table,} from 'sequelize-typescript';
+import {BelongsTo, Column, DataType, ForeignKey, HasMany, HasOne, Model, Table,} from 'sequelize-typescript';
 import {BelongsToSetAssociationMixin, HasOneSetAssociationMixin} from "sequelize";
 import {Role} from "./Role";
+import {Product} from "./Product";
 
 @Table({tableName: 'users'})
 export class User extends Model {
@@ -33,4 +34,7 @@ export class User extends Model {
     declare role: Role
 
     declare setRole: BelongsToSetAssociationMixin<Role, Role['id']>
+
+    @HasMany(() => Product, { foreignKey: 'user_id' })
+    declare products: Product[];
 }

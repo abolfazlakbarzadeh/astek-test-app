@@ -1,22 +1,27 @@
-import {NextFunction, Request, Response} from "express";
+import {NextFunction, Response} from "express";
 import {AuthRequest} from "./auth-middleware";
 import {Role} from "../models/Role";
+import {userForbidden} from "../misc/http-responses";
 
 const unauthorizedError = (res: Response) => {
     return res.status(401).json({message: 'Unauthorized'});
 }
 
-export const accessMiddleware = (roles?: string[], permissions?: string[]): any => async (req: AuthRequest, res: Response, next: NextFunction) => {
+export interface AccessRequest extends AuthRequest {}
+
+export const accessMiddleware = (roles?: string[], permissions?: string[]): any => async (req: AccessRequest, res: Response, next: NextFunction) => {
     const user = req.user
 
+    if (user.is_super_admin) {
+        return next()
+    }
+
     if (!roles && !permissions) {
-        if (!user.is_super_admin)
-            return unauthorizedError(res)
-        else return next()
+        return unauthorizedError(res)
     }
 
     if (!user.role) {
-        return unauthorizedError(res)
+        return userForbidden(res)
     }
     const role = await Role.findOne({
         where: {
@@ -24,7 +29,7 @@ export const accessMiddleware = (roles?: string[], permissions?: string[]): any 
         }
     })
     if (!role) {
-        return unauthorizedError(res)
+        return userForbidden(res)
     }
 
     let permission_grants = true
@@ -36,9 +41,8 @@ export const accessMiddleware = (roles?: string[], permissions?: string[]): any 
     if (roles) {
         role_grants = roles.some(role => role == user.role)
     }
-
-    if (permission_grants && role_grants)
-        next()
-    else
-        return unauthorizedError(res)
+    if (permission_grants && role_grants) {
+        next();
+    } else
+        return userForbidden(res)
 }

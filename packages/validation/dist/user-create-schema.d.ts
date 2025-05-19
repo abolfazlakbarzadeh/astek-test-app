@@ -2,7 +2,7 @@ import { z } from "zod";
 export declare const userEditSchema: z.ZodObject<{
     name: z.ZodString;
     phone: z.ZodString;
-    password: z.ZodString;
+    password: z.ZodOptional<z.ZodString>;
     is_super_admin: z.ZodBoolean;
     role: z.ZodOptional<z.ZodString>;
 }, "strip", z.ZodTypeAny, {
@@ -21,11 +21,11 @@ export declare const userEditSchema: z.ZodObject<{
 export declare const userCreateSchema: z.ZodObject<{
     name: z.ZodString;
     phone: z.ZodString;
-    password: z.ZodString;
     is_super_admin: z.ZodBoolean;
     role: z.ZodOptional<z.ZodString>;
 } & {
     username: z.ZodString;
+    password: z.ZodString;
 }, "strip", z.ZodTypeAny, {
     name?: string;
     phone?: string;

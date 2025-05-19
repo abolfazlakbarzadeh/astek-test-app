@@ -8,9 +8,7 @@ const unauthorizedError = (res: Response) => {
 
 export const accessMiddleware = (roles?: string[], permissions?: string[]): any => async (req: AuthRequest, res: Response, next: NextFunction) => {
     const user = req.user
-    console.log({
-        user
-    })
+
     if (!roles && !permissions) {
         if (!user.is_super_admin)
             return unauthorizedError(res)

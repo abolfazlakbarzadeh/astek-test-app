@@ -38,6 +38,9 @@ importers:
       sequelize-cli:
         specifier: ^6.6.3
         version: 6.6.3
+      validation:
+        specifier: ../../packages/validation
+        version: link:../../packages/validation
       zod:
         specifier: ^3.24.4
         version: 3.24.4

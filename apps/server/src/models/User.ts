@@ -5,7 +5,7 @@ import {
     DataType,
 } from 'sequelize-typescript';
 
-@Table({ tableName: 'Users' })
+@Table({ tableName: 'users' })
 export class User extends Model {
     @Column({
         autoIncrement: true,
@@ -19,6 +19,9 @@ export class User extends Model {
 
     @Column(DataType.STRING)
     name!: string;
+
+    @Column(DataType.STRING)
+    role!: string;
 
     @Column(DataType.STRING)
     phone!: string;

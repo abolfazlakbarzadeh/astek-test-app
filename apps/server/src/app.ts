@@ -10,7 +10,7 @@ sequelize.sync({ alter: true }).then(() => {
 function startApp() {
     const app = express();
     app.use(express.json());
-    app.use(routes)
+    app.use('/api/v1', routes)
     const PORT = env?.SERVER_PORT;
     app.listen(PORT, env?.SERVER_HOST, () => console.log(`Server running on port ${env?.SERVER_HOST}:${PORT}`));
 }

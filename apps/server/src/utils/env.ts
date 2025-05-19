@@ -12,6 +12,7 @@ const envSchema = z.object({
     DB_DIALECT: z.string(),
     SERVER_HOST: z.string().default('localhost'),
     SERVER_PORT: z.string().regex(/^\d+$/).transform(Number).default('3000'),
+    JWT_SECRET: z.string(),
 })
 
 

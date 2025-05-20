@@ -63,8 +63,20 @@ export default {
   				border: 'hsl(var(--sidebar-border))',
   				ring: 'hsl(var(--sidebar-ring))'
   			}
+  		},
+  		keyframes: {
+  			'spinner-leaf-fade': {
+  				'0%, 100%': {
+  					opacity: '0'
+  				},
+  				'50%': {
+  					opacity: '1'
+  				}
+  			}
+  		},
+  		animation: {
+  			'spinner-leaf-fade': 'spinner-leaf-fade 800ms linear infinite'
   		}
   	}
   },
-  plugins: [require("tailwindcss-animate")],
 }

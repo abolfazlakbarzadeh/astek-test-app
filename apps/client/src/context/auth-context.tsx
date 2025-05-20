@@ -9,6 +9,7 @@ export interface IAuthContext {
     token?: string;
     login: (token: string) => void | Promise<void>;
     logout: () => void,
+    hasPermission?: (permission: string) => boolean,
 }
 
 export const AuthContext = createContext<IAuthContext>({
@@ -36,8 +37,14 @@ export const AuthContextProvider: FC<PropsWithChildren> = ({children}) => {
         setAuth({loggedIn: false});
     };
 
+    const hasPermission = (permission: string) => {
+        if (auth.user?.is_super_admin) return true
+
+        return !!auth.user?.role.permissions.some(per => per == permission)
+    }
+
     return (
-        <AuthContext.Provider value={{...auth, login, logout}}>
+        <AuthContext.Provider value={{...auth, login, logout, hasPermission}}>
             {children}
         </AuthContext.Provider>
     )

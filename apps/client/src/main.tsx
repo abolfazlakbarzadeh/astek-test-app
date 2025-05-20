@@ -13,34 +13,40 @@ import {CreateProductPage} from "@/pages/dashboard/products/create.tsx";
 import {ProductsPage} from "@/pages/dashboard/products";
 import {ToastContainer} from "react-toastify";
 import {AuthContextProvider} from "@/context/auth-context.tsx";
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
 );
+
+const queryClient = new QueryClient();
+
 root.render(
-    <AuthContextProvider>
-        <BrowserRouter>
-            <Routes>
-                <Route path="auth">
-                    <Route path="login" element={<LoginPage/>}/>
-                </Route>
-                <Route path="dashboard" element={<DashboardLayout/>}>
-                    <Route index element={<DashboardPage/>}/>
-                    <Route path="users">
-                        <Route index element={<UsersPage/>}/>
-                        <Route path="create" element={<CreateUserPage/>}/>
+    <QueryClientProvider client={queryClient}>
+        <AuthContextProvider>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="auth">
+                        <Route path="login" element={<LoginPage/>}/>
                     </Route>
-                    <Route path="roles">
-                        <Route index element={<RolesPage/>}/>
-                        <Route path="create" element={<CreateRolePage/>}/>
+                    <Route path="dashboard" element={<DashboardLayout/>}>
+                        <Route index element={<DashboardPage/>}/>
+                        <Route path="users">
+                            <Route index element={<UsersPage/>}/>
+                            <Route path="create" element={<CreateUserPage/>}/>
+                        </Route>
+                        <Route path="roles">
+                            <Route index element={<RolesPage/>}/>
+                            <Route path="create" element={<CreateRolePage/>}/>
+                        </Route>
+                        <Route path="products">
+                            <Route index element={<ProductsPage/>}/>
+                            <Route path="create" element={<CreateProductPage/>}/>
+                        </Route>
                     </Route>
-                    <Route path="products">
-                        <Route index element={<ProductsPage/>}/>
-                        <Route path="create" element={<CreateProductPage/>}/>
-                    </Route>
-                </Route>
-            </Routes>
-        </BrowserRouter>
-        <ToastContainer/>
-    </AuthContextProvider>
+                </Routes>
+            </BrowserRouter>
+            <ToastContainer/>
+        </AuthContextProvider>
+    </QueryClientProvider>
 );

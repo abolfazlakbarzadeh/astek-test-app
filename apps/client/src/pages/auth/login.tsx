@@ -49,48 +49,54 @@ export const LoginPage = ({className, ...props}: UserAuthFormProps) => {
     }
 
     return (
-        <div className="w-screen h-screen flex justify-center items-center">
-            <Card className={cn("grid gap-6", className)} {...props}>
-                <CardContent>
-                    <Form {...form}>
-                        <form onSubmit={form.handleSubmit(onSubmit.bind(this))} className="grid gap-4">
-                            <FormField
-                                control={form.control}
-                                name="username"
-                                render={({field}) => (
-                                    <FormItem>
-                                        <FormLabel>Username</FormLabel>
-                                        <FormControl className="mt-2">
-                                            <Input placeholder="Username" {...field} />
-                                        </FormControl>
-                                        <FormMessage/>
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="password"
-                                render={({field}) => (
-                                    <FormItem>
-                                        <FormLabel>Password</FormLabel>
-                                        <FormControl className="mt-2">
-                                            <Input placeholder="password" type="password" {...field} />
-                                        </FormControl>
-                                        <FormMessage/>
-                                    </FormItem>
-                                )}
-                            />
-                            <Button className="bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 mt-4"
+        <>
+            <title>
+                Login
+            </title>
+            <div className="w-screen h-screen flex justify-center items-center">
+                <Card className={cn("grid gap-6", className)} {...props}>
+                    <CardContent>
+                        <Form {...form}>
+                            <form onSubmit={form.handleSubmit(onSubmit.bind(this))} className="grid gap-4">
+                                <FormField
+                                    control={form.control}
+                                    name="username"
+                                    render={({field}) => (
+                                        <FormItem>
+                                            <FormLabel>Username</FormLabel>
+                                            <FormControl className="mt-2">
+                                                <Input placeholder="Username" {...field} />
+                                            </FormControl>
+                                            <FormMessage/>
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="password"
+                                    render={({field}) => (
+                                        <FormItem>
+                                            <FormLabel>Password</FormLabel>
+                                            <FormControl className="mt-2">
+                                                <Input placeholder="password" type="password" {...field} />
+                                            </FormControl>
+                                            <FormMessage/>
+                                        </FormItem>
+                                    )}
+                                />
+                                <Button
+                                    className="bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 mt-4"
                                     disabled={isLoading}>
-                                {isLoading && (
-                                    <Icons.spinner className="mr-2 h-4 w-4 animate-spin"/>
-                                )}
-                                Login
-                            </Button>
-                        </form>
-                    </Form>
-                </CardContent>
-            </Card>
-        </div>
+                                    {isLoading && (
+                                        <Icons.spinner className="mr-2 h-4 w-4 animate-spin"/>
+                                    )}
+                                    Login
+                                </Button>
+                            </form>
+                        </Form>
+                    </CardContent>
+                </Card>
+            </div>
+        </>
     )
 };

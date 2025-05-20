@@ -20,12 +20,12 @@ export const accessMiddleware = (roles?: string[], permissions?: string[]): any 
         return unauthorizedError(res)
     }
 
-    if (!user.role) {
+    if (!user.role_id) {
         return userForbidden(res)
     }
     const role = await Role.findOne({
         where: {
-            name: user.role
+            id: user.role_id
         }
     })
     if (!role) {

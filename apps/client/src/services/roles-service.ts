@@ -1,5 +1,5 @@
 import http, {type AxiosCustomResponse, type AxiosException} from "@/lib/http.ts";
-import type {Product, Role} from "@/types.ts";
+import type {Role} from "@/types.ts";
 import {handleApiError} from "@/services/utils.ts";
 import {z} from "zod";
 import {roleCreateSchema} from "@/pages/dashboard/roles/roleCreateSchema.ts";
@@ -11,8 +11,9 @@ export class RolesService {
             return Promise.reject(error);
         })
     }
+
     static async get(role_id: number) {
-        return http.get<Product>(`/roles/${role_id}`).catch((error: AxiosException) => {
+        return http.get<Role>(`/roles/${role_id}`).catch((error: AxiosException) => {
             handleApiError(error)
             return Promise.reject(error);
         })

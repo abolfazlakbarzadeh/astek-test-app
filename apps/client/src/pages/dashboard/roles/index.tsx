@@ -66,7 +66,7 @@ export const RolesPage = () => {
                     </TableCell>
                     <TableCell>
                         <Popover>
-                            {auth.user?.role.permissions.some(per => [permissions.role_management.edit].includes(per)) &&
+                            {(auth.user?.role?.permissions.some(per => [permissions.role_management.edit].includes(per)) || auth.user?.is_super_admin) &&
                                 <PopoverTrigger>
                                     <IconDots/>
                                 </PopoverTrigger>

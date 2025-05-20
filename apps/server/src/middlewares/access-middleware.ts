@@ -3,21 +3,23 @@ import {AuthRequest} from "./auth-middleware";
 import {Role} from "../models/Role";
 import {userForbidden} from "../misc/http-responses";
 
-const unauthorizedError = (res: Response) => {
+const unauthorizedError = (req: AccessRequest, res: Response) => {
+    req.grant_permission = false
     return res.status(401).json({message: 'Unauthorized'});
 }
 
-export interface AccessRequest extends AuthRequest {}
+export interface AccessRequest extends AuthRequest {
+    grant_permission: boolean
+}
 
 export const accessMiddleware = (roles?: string[], permissions?: string[]): any => async (req: AccessRequest, res: Response, next: NextFunction) => {
     const user = req.user
-
+    req.grant_permission = true
     if (user.is_super_admin) {
         return next()
     }
-
     if (!roles && !permissions) {
-        return unauthorizedError(res)
+        return unauthorizedError(req, res)
     }
 
     if (!user.role_id) {
@@ -42,6 +44,7 @@ export const accessMiddleware = (roles?: string[], permissions?: string[]): any 
         role_grants = roles.some(role => role == user.role)
     }
     if (permission_grants && role_grants) {
+        req.grant_permission = true
         next();
     } else
         return userForbidden(res)

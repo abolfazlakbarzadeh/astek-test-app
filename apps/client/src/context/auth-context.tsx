@@ -1,4 +1,4 @@
-import {createContext, type FC, type PropsWithChildren, useEffect, useState} from "react";
+import {createContext, type FC, type PropsWithChildren, useContext, useEffect, useState} from "react";
 import type {User} from "@/types.ts";
 import {getAuth} from "@/lib/localStorage.ts";
 import {AuthService} from "@/services/auth-service.ts";
@@ -8,7 +8,7 @@ export interface IAuthContext {
     user?: User;
     token?: string;
     login: (token: string) => void | Promise<void>;
-    logout: () => void
+    logout: () => void,
 }
 
 export const AuthContext = createContext<IAuthContext>({
@@ -43,3 +43,5 @@ export const AuthContextProvider: FC<PropsWithChildren> = ({children}) => {
     )
 
 }
+
+export const useAuth = () => useContext(AuthContext)

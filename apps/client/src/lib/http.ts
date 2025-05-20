@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import {env} from "@/environment.ts";
 import {getAuth} from "@/lib/localStorage.ts";
 
@@ -17,3 +17,8 @@ axiosIns.interceptors.request.use((config) => {
 })
 
 export default axiosIns;
+
+
+export type AxiosException = AxiosError<{
+    message: string;
+}>

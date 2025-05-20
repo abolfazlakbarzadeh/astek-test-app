@@ -1,5 +1,5 @@
 import {cn} from "../../lib/utils";
-import React from "react";
+import React, {useEffect} from "react";
 import {Button} from "../../components/ui/button";
 import {Icons} from "../../components/icons";
 import {Input} from "../../components/ui/input";
@@ -8,6 +8,10 @@ import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "../../components/ui/form";
 import {Card, CardContent} from "@/components/ui/card.tsx";
+import {AuthService} from "@/services/auth-service.ts";
+import {useAuth} from "@/context/auth-context.tsx";
+import {useNavigate} from "react-router";
+import {toast} from "react-toastify";
 
 const formSchema = z.object({
     username: z.string(),
@@ -19,13 +23,29 @@ interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const LoginPage = ({className, ...props}: UserAuthFormProps) => {
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
+    const auth = useAuth()
+    const navigate = useNavigate()
+    useEffect(() => {
+        if (auth.loggedIn) {
+            navigate('/dashboard')
+        }
+    }, [auth.loggedIn]);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
     })
 
-    async function onSubmit(values: z.infer<typeof formSchema>) {
-
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        setIsLoading(true)
+        AuthService.login(values.username, values.password)
+            .then((res) => {
+                auth.login(res.data.token)
+                toast.success("Welcome Back!")
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+            .finally(() => setIsLoading(false))
     }
 
     return (
@@ -33,7 +53,7 @@ export const LoginPage = ({className, ...props}: UserAuthFormProps) => {
             <Card className={cn("grid gap-6", className)} {...props}>
                 <CardContent>
                     <Form {...form}>
-                        <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
+                        <form onSubmit={form.handleSubmit(onSubmit.bind(this))} className="grid gap-4">
                             <FormField
                                 control={form.control}
                                 name="username"
@@ -54,7 +74,7 @@ export const LoginPage = ({className, ...props}: UserAuthFormProps) => {
                                     <FormItem>
                                         <FormLabel>Password</FormLabel>
                                         <FormControl className="mt-2">
-                                            <Input placeholder="password" {...field} />
+                                            <Input placeholder="password" type="password" {...field} />
                                         </FormControl>
                                         <FormMessage/>
                                     </FormItem>

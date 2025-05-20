@@ -30,6 +30,8 @@ import {RolesService} from "@/services/roles-service.ts";
 import {toast} from "react-toastify";
 import {useAuth} from "@/context/auth-context.tsx";
 import {permissions} from "@/lib/permissions.ts";
+import {Link, useNavigate} from "react-router";
+import {usePermission} from "@/lib/hooks.ts";
 
 const assignFormSchema = z.object({
     role_id: z.number({required_error: 'required', message: 'required'}),
@@ -53,10 +55,6 @@ const AssignRoleDialogForm = ({roles, role_id, onChange, loading}: {
     });
 
     const onSubmit = async (data: z.infer<typeof assignFormSchema>) => {
-        console.log({
-            data
-
-        })
         const result = onChange(data.role_id)
         if (result instanceof Promise) {
             await result
@@ -120,17 +118,20 @@ const AssignRoleDialogForm = ({roles, role_id, onChange, loading}: {
 
 export const UsersPage = () => {
     const auth = useAuth();
+    const navigate = useNavigate();
     const usersQuery = useQuery({
         queryKey: ['users', 'all'],
         queryFn: UsersService.getAll,
         staleTime: 0,
-        retry: 0
+        retry: 0,
+        enabled: false
     })
     const rolesQuery = useQuery({
         queryKey: ['roles', 'all'],
         queryFn: RolesService.getAll,
         staleTime: 0,
-        retry: 0
+        retry: 0,
+        enabled: auth.hasPermission?.(permissions.account_management.assignRole)
     })
 
     useEffect(() => {
@@ -140,6 +141,12 @@ export const UsersPage = () => {
             })
         }
     }, [usersQuery.isError]);
+
+    usePermission(permissions.account_management.create, () => {
+        navigate("/dashboard");
+    }, () => {
+        usersQuery.refetch()
+    })
 
 
     const onAssignRole = async (user_id: number, role_id: number) => {
@@ -199,8 +206,10 @@ export const UsersPage = () => {
                                         {auth.hasPermission?.(permissions.account_management.edit) && (
                                             <>
                                                 <CommandItem>
-                                                    <IconEdit/>
-                                                    Edit
+                                                    <Link to={`/dashboard/users/${item.id}`} className="flex items-center gap-2">
+                                                        <IconEdit/>
+                                                        Edit
+                                                    </Link>
                                                 </CommandItem>
                                                 <CommandItem>
                                                     <Dialog>

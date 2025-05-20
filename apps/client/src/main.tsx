@@ -14,6 +14,7 @@ import {ProductsPage} from "@/pages/dashboard/products";
 import {ToastContainer} from "react-toastify";
 import {AuthContextProvider} from "@/context/auth-context.tsx";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import {EditUserPage} from "@/pages/dashboard/users/edit.tsx";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -34,6 +35,7 @@ root.render(
                         <Route path="users">
                             <Route index element={<UsersPage/>}/>
                             <Route path="create" element={<CreateUserPage/>}/>
+                            <Route path=":id" element={<EditUserPage/>}/>
                         </Route>
                         <Route path="roles">
                             <Route index element={<RolesPage/>}/>

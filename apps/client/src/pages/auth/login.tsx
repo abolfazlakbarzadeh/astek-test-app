@@ -10,8 +10,8 @@ import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "..
 import {Card, CardContent} from "@/components/ui/card.tsx";
 
 const formSchema = z.object({
-    username: z.string({ required_error: 'اجباری است' }),
-    password: z.string({ required_error: 'اجباری است' }),
+    username: z.string(),
+    password: z.string(),
 })
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -39,9 +39,9 @@ export const LoginPage = ({className, ...props}: UserAuthFormProps) => {
                                 name="username"
                                 render={({field}) => (
                                     <FormItem>
-                                        <FormLabel>نام کاربری</FormLabel>
+                                        <FormLabel>Username</FormLabel>
                                         <FormControl className="mt-2">
-                                            <Input placeholder="نام کاربری" {...field} />
+                                            <Input placeholder="Username" {...field} />
                                         </FormControl>
                                         <FormMessage/>
                                     </FormItem>
@@ -52,10 +52,9 @@ export const LoginPage = ({className, ...props}: UserAuthFormProps) => {
                                 name="password"
                                 render={({field}) => (
                                     <FormItem>
-                                        <FormLabel>کلمه عبور</FormLabel>
+                                        <FormLabel>Password</FormLabel>
                                         <FormControl className="mt-2">
-                                            <Input placeholder="کلمه عبور
-                                            ..." {...field} />
+                                            <Input placeholder="password" {...field} />
                                         </FormControl>
                                         <FormMessage/>
                                     </FormItem>
@@ -66,7 +65,7 @@ export const LoginPage = ({className, ...props}: UserAuthFormProps) => {
                                 {isLoading && (
                                     <Icons.spinner className="mr-2 h-4 w-4 animate-spin"/>
                                 )}
-                                ورود
+                                Login
                             </Button>
                         </form>
                     </Form>

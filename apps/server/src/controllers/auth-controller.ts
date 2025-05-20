@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import {generateToken} from '../utils/jwt';
 import {User} from "../models/User";
 import {AuthRequest} from "../middlewares/auth-middleware";
+import {Role} from "../models/Role";
 
 export class AuthController {
     static async login(req: Request, res: Response) {
@@ -30,7 +31,11 @@ export class AuthController {
 
     static async me(req: AuthRequest, res: Response) {
 
-        const user = await User.findOne({where: {id: req.user.id}, attributes: {exclude: ['password']}});
+        const user = await User.findOne({
+            where: {id: req.user.id},
+            attributes: {exclude: ['password']},
+            include: [Role]
+        });
 
         return res.status(200).json(user);
     }

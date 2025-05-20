@@ -40,7 +40,7 @@ export const AuthContextProvider: FC<PropsWithChildren> = ({children}) => {
     const hasPermission = (permission: string) => {
         if (auth.user?.is_super_admin) return true
 
-        return !!auth.user?.role.permissions.some(per => per == permission)
+        return !!auth.user?.role?.permissions.some(per => per == permission)
     }
 
     return (

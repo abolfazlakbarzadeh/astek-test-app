@@ -142,7 +142,7 @@ export const UsersPage = () => {
         }
     }, [usersQuery.isError]);
 
-    usePermission(permissions.account_management.create, () => {
+    usePermission(permissions.account_management.view, () => {
         navigate("/dashboard");
     }, () => {
         usersQuery.refetch()

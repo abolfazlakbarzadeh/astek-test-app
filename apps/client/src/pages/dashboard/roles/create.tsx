@@ -5,15 +5,15 @@ import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Input} from "@/components/ui/input.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {createSchema} from "@/pages/dashboard/roles/create.schema.ts";
+import {roleCreateSchema} from "@/pages/dashboard/roles/roleCreateSchema.ts";
 
 export const CreateRolePage = () => {
 
-    const form = useForm<z.infer<typeof createSchema>>({
-        resolver: zodResolver(createSchema)
+    const form = useForm<z.infer<typeof roleCreateSchema>>({
+        resolver: zodResolver(roleCreateSchema)
     });
 
-    const handleSubmit = (values: z.infer<typeof createSchema>) => {
+    const handleSubmit = (values: z.infer<typeof roleCreateSchema>) => {
 
     }
 

@@ -1,6 +1,6 @@
 import {z} from "zod";
 
-export const createSchema = z.object({
+export const productCreateSchema = z.object({
     name: z.string(),
     description: z.string(),
     price: z.number().min(1),

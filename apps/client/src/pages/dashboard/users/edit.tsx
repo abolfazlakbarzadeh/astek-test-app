@@ -10,9 +10,6 @@ export const EditUserPage = () => {
     const userQuery = useQuery({
         queryKey: ['users', 'user'],
         queryFn: () => {
-            console.log({
-                param: params.id
-            })
             return UsersService.get(Number(params.id))
         },
         enabled: false,

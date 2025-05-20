@@ -17,3 +17,15 @@ export interface Role {
     createdAt: string
     updatedAt: string
 }
+
+export type Product = {
+    id: number
+    name: string
+    description: any
+    price: number
+    createdAt: string
+    updatedAt: string
+    role_id: any
+    user_id: number
+    user?: Omit<User, 'is_super_admin' | 'role_id' | 'phone'>
+}

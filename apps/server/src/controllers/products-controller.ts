@@ -56,7 +56,15 @@ export class ProductsController {
         if (!viewAll)
             where['user_id'] = req.user.id;
         const products = await Product.findAll({
-            where
+            where,
+            include: [
+                {
+                    model: User,
+                    attributes: {
+                        exclude: ['password', 'is_super_admin', 'phone', 'role_id']
+                    }
+                }
+            ]
         })
         return res.json(products);
     }

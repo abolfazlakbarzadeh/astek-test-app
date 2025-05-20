@@ -22,6 +22,6 @@ export class Product extends Model {
     @ForeignKey(() => User)
     user_id!: number;
 
-    @BelongsTo(() => User, {foreignKey: 'role_id'})
+    @BelongsTo(() => User)
     declare user: User;
 }

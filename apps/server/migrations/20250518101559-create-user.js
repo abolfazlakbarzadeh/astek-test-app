@@ -25,7 +25,7 @@ module.exports = {
       is_super_admin: {
         type: Sequelize.BOOLEAN
       },
-      role: {
+      role_id: {
         type: Sequelize.INTEGER,
         allowNull: true,
         references: {

@@ -22,6 +22,7 @@ module.exports = {
         phone: '09351234567',
         password: hashedPassword,
         is_super_admin: false,
+        role_id: 1,
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -29,6 +30,37 @@ module.exports = {
         username: 'alireza1379',
         name: 'علیرضا فرهمند',
         phone: '09103561234',
+        role_id: 2,
+        password: hashedPassword,
+        is_super_admin: false,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        username: 'alireza1380',
+        name: 'علیرضا فرهمند 2',
+        phone: '09103561235',
+        role_id: 3,
+        password: hashedPassword,
+        is_super_admin: false,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        username: 'alireza1381',
+        name: 'علیرضا فرهمند 3',
+        phone: '09103561236',
+        role_id: 4,
+        password: hashedPassword,
+        is_super_admin: false,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        username: 'alireza1382',
+        name: 'علیرضا فرهمند 4',
+        phone: '09103561236',
+        role_id: 5,
         password: hashedPassword,
         is_super_admin: false,
         createdAt: new Date(),

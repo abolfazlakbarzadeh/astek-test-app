@@ -36,13 +36,13 @@ then go back in the root dir (out of apps dir) and run this command to start bot
 ```bash
 # root dir
 # I was using node v22 so in the turbo.json is set npm version you need is 10.9.2;
-# by install node v22.15.1 through NVM you can set you npm version
+# by install node v22.15.1 through NVM you can set your npm version
 npm run dev
 ```
 this command runs both server and client projects, the server port is 3001 and client port 5173 (vite default port)
 
 ## Usage
-now you can open your browser and get to this address: ``https://localhost:5173/auth/login``
+now you can open your browser and go to this address: ``http://localhost:5173/auth/login``
 
 
 thats it! :)
